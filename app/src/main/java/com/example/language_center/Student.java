@@ -4,11 +4,15 @@ public class Student {
     private String code;
     private String name;
     private int yob;
+    private String gender;
+    private double gpa;
 
-    public Student(String code, String name, int yob) {
+    public Student(String code, String name, int yob, String gender, double gpa) {
         this.code = code;
         this.name = name;
         this.yob = yob;
+        this.gender = gender;
+        this.gpa = gpa;
     }
 
     public String getCode() {
@@ -33,6 +37,22 @@ public class Student {
 
     public void setYob(int yob) {
         this.yob = yob;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public double getGpa() {
+        return gpa;
+    }
+
+    public void setGpa(double gpa) {
+        this.gpa = gpa;
     }
 
     @Override

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class StudentListActivity extends AppCompatActivity {
     ListView lvStudent;
     ArrayList<Student> list_students;
-    ArrayAdapter<Student> adapterStudent;
+    StudentAdapter adapterStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +36,11 @@ public class StudentListActivity extends AppCompatActivity {
 
         // Initialize student list
         list_students = new ArrayList<>();
-        Student st1 = new Student("MA1", "Hoa", 2000);
-        Student st2 = new Student("MA2", "An", 2001);
-        Student st3 = new Student("MA3", "Binh", 2002);
-        Student st4 = new Student("MA4", "Minh", 1999);
-        Student st5 = new Student("MA5", "Phuong", 2003);
+        Student st1 = new Student("MA1", "Nam", 2000, "Nam", 3.2);
+        Student st2 = new Student("MA2", "Lan", 2002, "Nữ", 3.3);
+        Student st3 = new Student("MA3", "Hoa", 2004, "Nữ", 2.8);
+        Student st4 = new Student("MA4", "Minh", 1998, "Nam", 2.9);
+        Student st5 = new Student("MA5", "Phuong", 2005, "Nữ", 3.5);
 
         list_students.add(st1);
         list_students.add(st2);
@@ -48,10 +48,9 @@ public class StudentListActivity extends AppCompatActivity {
         list_students.add(st4);
         list_students.add(st5);
 
-        // Array adapter
-        adapterStudent = new ArrayAdapter<>(
+        // Custom adapter
+        adapterStudent = new StudentAdapter(
                 this,
-                android.R.layout.simple_list_item_1,
                 list_students
         );
 
