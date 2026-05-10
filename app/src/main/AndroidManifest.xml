@@ -12,10 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LanguageCenter">
         <activity
-            android:name=".StudentListActivity"
+            android:name=".StatisticsActivity"
             android:exported="false" />
         <activity
-            android:name=".Welcome"
+            android:name=".AddEditTeacherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddEditStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManagementActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
