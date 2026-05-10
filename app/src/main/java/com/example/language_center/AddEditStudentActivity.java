@@ -1,0 +1,100 @@
+package com.example.language_center;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class AddEditStudentActivity extends AppCompatActivity {
+    EditText edCode, edName, edLevel, edClass;
+    Button btnSave, btnCancel;
+    DatabaseHelper databaseHelper;
+    boolean isEdit = false;
+    String originalCode = "";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_add_edit_student);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // Initialize database
+        databaseHelper = new DatabaseHelper(this);
+
+        // Mapping
+        edCode = findViewById(R.id.edCode);
+        edName = findViewById(R.id.edName);
+        edLevel = findViewById(R.id.edLevel);
+        edClass = findViewById(R.id.edClass);
+        btnSave = findViewById(R.id.btnSave);
+        btnCancel = findViewById(R.id.btnCancel);
+
+        // Check if edit mode
+        Intent intent = getIntent();
+        isEdit = intent.getBooleanExtra("is_edit", false);
+
+        if (isEdit) {
+            originalCode = intent.getStringExtra("student_code");
+            edCode.setText(originalCode);
+            edName.setText(intent.getStringExtra("student_name"));
+            edLevel.setText(intent.getStringExtra("student_level"));
+            edClass.setText(intent.getStringExtra("student_class"));
+            edCode.setEnabled(false); // Cannot edit code
+        }
+
+        // Save button
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String code = edCode.getText().toString().trim();
+                String name = edName.getText().toString().trim();
+                String level = edLevel.getText().toString().trim();
+                String className = edClass.getText().toString().trim();
+
+                if (code.isEmpty() || name.isEmpty() || level.isEmpty() || className.isEmpty()) {
+                    Toast.makeText(AddEditStudentActivity.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Student student = new Student(code, name, level, className);
+
+                if (isEdit) {
+                    if (databaseHelper.updateStudent(student)) {
+                        Toast.makeText(AddEditStudentActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(AddEditStudentActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    if (databaseHelper.addStudent(student)) {
+                        Toast.makeText(AddEditStudentActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(AddEditStudentActivity.this, "Thêm thất bại (mã đã tồn tại)", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        // Cancel button
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+}

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddEditStudentActivity">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thêm/Sửa Học Viên"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/tvCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mã SV:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp" />
+
+    <EditText
+        android:id="@+id/edCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nhập mã sinh viên"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:layout_constraintStart_toEndOf="@+id/tvCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Họ tên:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/edCode"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/edName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nhập họ tên"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@+id/edCode"
+        app:layout_constraintStart_toEndOf="@+id/tvName"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tvLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trình độ:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/edName"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/edLevel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nhập trình độ"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@+id/edName"
+        app:layout_constraintStart_toEndOf="@+id/tvLevel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tvClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lớp:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/edLevel"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/edClass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nhập lớp"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@+id/edLevel"
+        app:layout_constraintStart_toEndOf="@+id/tvClass"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lưu"
+        app:layout_constraintTop_toBottomOf="@+id/edClass"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancel"
+        android:layout_marginTop="32dp" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hủy"
+        app:layout_constraintTop_toBottomOf="@+id/edClass"
+        app:layout_constraintStart_toEndOf="@+id/btnSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
