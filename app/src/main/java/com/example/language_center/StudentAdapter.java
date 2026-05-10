@@ -35,9 +35,8 @@ public class StudentAdapter extends ArrayAdapter<Student> {
         // Format the student information according to requirements
         String studentInfo = "Mã SV: " + student.getCode() + "\n" +
                 "Họ tên: " + student.getName() + "\n" +
-                "Năm sinh: " + student.getYob() + "\n" +
-                "Giới tính: " + student.getGender() + "\n" +
-                "GPA: " + student.getGpa();
+                "Trình độ: " + student.getLevel() + "\n" +
+                "Lớp: " + student.getClassName();
 
         tvStudentInfo.setText(studentInfo);
 

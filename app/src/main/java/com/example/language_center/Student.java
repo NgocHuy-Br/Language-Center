@@ -3,16 +3,14 @@ package com.example.language_center;
 public class Student {
     private String code;
     private String name;
-    private int yob;
-    private String gender;
-    private double gpa;
+    private String level;
+    private String className;
 
-    public Student(String code, String name, int yob, String gender, double gpa) {
+    public Student(String code, String name, String level, String className) {
         this.code = code;
         this.name = name;
-        this.yob = yob;
-        this.gender = gender;
-        this.gpa = gpa;
+        this.level = level;
+        this.className = className;
     }
 
     public String getCode() {
@@ -31,32 +29,24 @@ public class Student {
         this.name = name;
     }
 
-    public int getYob() {
-        return yob;
+    public String getLevel() {
+        return level;
     }
 
-    public void setYob(int yob) {
-        this.yob = yob;
+    public void setLevel(String level) {
+        this.level = level;
     }
 
-    public String getGender() {
-        return gender;
+    public String getClassName() {
+        return className;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public double getGpa() {
-        return gpa;
-    }
-
-    public void setGpa(double gpa) {
-        this.gpa = gpa;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     @Override
     public String toString() {
-        return code + " - " + name + " - " + yob;
+        return code + " - " + name + " - " + level + " - " + className;
     }
 }

@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity {
     EditText edAccount, edPassword;
     Button btLogin;
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Initialize database
+        databaseHelper = new DatabaseHelper(this);
 
         // Mapping
         edAccount = (EditText) findViewById(R.id.editTextAccount);
@@ -40,11 +44,13 @@ public class MainActivity extends AppCompatActivity {
                 String user = edAccount.getText().toString();
                 String password = edPassword.getText().toString();
 
-                if ((user.equals("K24DTCN258")) && (password.equals("12345"))) {
+                // Check login from SQLite database
+                if (databaseHelper.checkLogin(user, password)) {
+                    Toast.makeText(MainActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, Welcome.class);
-                    intent.putExtra("user_name", user);
+                    intent.setClass(MainActivity.this, ManagementActivity.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(MainActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                 }
