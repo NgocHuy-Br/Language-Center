@@ -55,7 +55,7 @@ public class AddEditTeacherActivity extends AppCompatActivity {
             edName.setText(intent.getStringExtra("teacher_name"));
             edLanguage.setText(intent.getStringExtra("teacher_language"));
             // Now allowing editing the code as per user request
-            edCode.setEnabled(true); 
+            edCode.setEnabled(true);
         } else {
             tvTitle.setText("Thêm Giáo Viên");
         }
@@ -83,7 +83,7 @@ public class AddEditTeacherActivity extends AppCompatActivity {
                             return;
                         }
                     }
-                    
+
                     if (databaseHelper.updateTeacher(originalCode, teacher)) {
                         Toast.makeText(AddEditTeacherActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                         finish();
@@ -96,7 +96,7 @@ public class AddEditTeacherActivity extends AppCompatActivity {
                         Toast.makeText(AddEditTeacherActivity.this, "Mã số này đã tồn tại!", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    
+
                     if (databaseHelper.addTeacher(teacher)) {
                         Toast.makeText(AddEditTeacherActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
                         finish();

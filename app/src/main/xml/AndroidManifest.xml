@@ -21,10 +21,10 @@
             android:name=".AddEditStudentActivity"
             android:exported="false" />
         <activity
-            android:name=".StudentManagementActivity"
+            android:name=".StudentManageActivity"
             android:exported="false" />
         <activity
-            android:name=".TeacherManagementActivity"
+            android:name=".TeacherManageActivity"
             android:exported="false" />
         <activity
             android:name=".ManagementActivity"

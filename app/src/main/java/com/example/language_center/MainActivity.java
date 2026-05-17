@@ -29,15 +29,16 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize database
+        //Start Code here
+        //Initialize database
         databaseHelper = new DatabaseHelper(this);
 
-        // Mapping
+        //Mapping
         edAccount = (EditText) findViewById(R.id.editTextAccount);
         edPassword = (EditText) findViewById(R.id.editTextPassword);
         btLogin = (Button) findViewById(R.id.buttonLogin);
 
-        // Event handle
+        //Event handle
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
                 // Check login from SQLite database
                 if (databaseHelper.checkLogin(user, password)) {
                     Toast.makeText(MainActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, StudentManagementActivity.class);
+                    
+                    //use Intent to start other activity
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this, StudentManageActivity.class);
                     startActivity(intent);
                     finish();
                 } else {

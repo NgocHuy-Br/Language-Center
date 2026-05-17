@@ -3,7 +3,6 @@ package com.example.language_center;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -15,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
-public class TeacherManagementActivity extends AppCompatActivity {
+public class TeacherManageActivity extends AppCompatActivity {
     ListView listView;
     Button btnAdd, btnGoToStudent, btnLogout;
     DatabaseHelper databaseHelper;
@@ -27,7 +26,7 @@ public class TeacherManagementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_teacher_management);
+        setContentView(R.layout.activity_teacher_manage);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -50,18 +49,18 @@ public class TeacherManagementActivity extends AppCompatActivity {
         loadTeachers();
 
         btnAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(TeacherManagementActivity.this, AddEditTeacherActivity.class);
+            Intent intent = new Intent(TeacherManageActivity.this, AddEditTeacherActivity.class);
             startActivity(intent);
         });
 
         btnGoToStudent.setOnClickListener(v -> {
-            Intent intent = new Intent(TeacherManagementActivity.this, StudentManagementActivity.class);
+            Intent intent = new Intent(TeacherManageActivity.this, StudentManageActivity.class);
             startActivity(intent);
             finish();
         });
 
         btnLogout.setOnClickListener(v -> {
-            Intent intent = new Intent(TeacherManagementActivity.this, MainActivity.class);
+            Intent intent = new Intent(TeacherManageActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();

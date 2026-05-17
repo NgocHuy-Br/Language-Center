@@ -33,19 +33,20 @@ public class AddEditStudentActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize database
+        //Start Code here
+        //Initialize database
         databaseHelper = new DatabaseHelper(this);
 
-        // Mapping
-        tvTitle = findViewById(R.id.tvTitle);
-        edCode = findViewById(R.id.edCode);
-        edName = findViewById(R.id.edName);
-        edLevel = findViewById(R.id.edLevel);
-        edClass = findViewById(R.id.edClass);
-        btnSave = findViewById(R.id.btnSave);
-        btnCancel = findViewById(R.id.btnCancel);
+        //Mapping
+        tvTitle = (TextView) findViewById(R.id.tvTitle);
+        edCode = (EditText) findViewById(R.id.edCode);
+        edName = (EditText) findViewById(R.id.edName);
+        edLevel = (EditText) findViewById(R.id.edLevel);
+        edClass = (EditText) findViewById(R.id.edClass);
+        btnSave = (Button) findViewById(R.id.btnSave);
+        btnCancel = (Button) findViewById(R.id.btnCancel);
 
-        // Check if edit mode
+        //Check if edit mode
         Intent intent = getIntent();
         isEdit = intent.getBooleanExtra("is_edit", false);
 
@@ -56,13 +57,12 @@ public class AddEditStudentActivity extends AppCompatActivity {
             edName.setText(intent.getStringExtra("student_name"));
             edLevel.setText(intent.getStringExtra("student_level"));
             edClass.setText(intent.getStringExtra("student_class"));
-            // Now allowing editing the code as per user request
             edCode.setEnabled(true); 
         } else {
             tvTitle.setText("Thêm Học Viên");
         }
 
-        // Save button
+        //Event handle
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,14 +79,12 @@ public class AddEditStudentActivity extends AppCompatActivity {
                 Student student = new Student(code, name, level, className);
 
                 if (isEdit) {
-                    // If code is changed, check if the new code already exists
                     if (!code.equals(originalCode)) {
                         if (databaseHelper.checkStudentExists(code)) {
                             Toast.makeText(AddEditStudentActivity.this, "Mã số này đã tồn tại!", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
-                    
                     if (databaseHelper.updateStudent(originalCode, student)) {
                         Toast.makeText(AddEditStudentActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                         finish();
@@ -94,12 +92,10 @@ public class AddEditStudentActivity extends AppCompatActivity {
                         Toast.makeText(AddEditStudentActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    // Check if code exists before adding
                     if (databaseHelper.checkStudentExists(code)) {
                         Toast.makeText(AddEditStudentActivity.this, "Mã số này đã tồn tại!", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    
                     if (databaseHelper.addStudent(student)) {
                         Toast.makeText(AddEditStudentActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
                         finish();
@@ -110,7 +106,6 @@ public class AddEditStudentActivity extends AppCompatActivity {
             }
         });
 
-        // Cancel button
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "LanguageCenter.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2; // Tăng version để cập nhật tài khoản mới
 
     // Table User
     private static final String TABLE_USER = "User";
@@ -54,8 +54,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TEACHER_LANGUAGE + " TEXT NOT NULL)";
         db.execSQL(createTeacherTable);
 
+        // Khởi tạo tài khoản theo yêu cầu mới
         ContentValues values = new ContentValues();
-        values.put(USER_USERNAME, "admin");
+        values.put(USER_USERNAME, "caongochuy");
         values.put(USER_PASSWORD, "123456");
         db.insert(TABLE_USER, null, values);
     }

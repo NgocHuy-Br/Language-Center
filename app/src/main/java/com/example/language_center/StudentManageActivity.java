@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StudentManagementActivity extends AppCompatActivity {
+public class StudentManageActivity extends AppCompatActivity {
     ListView listView;
     Button btnAdd, btnGoToTeacher, btnLogout;
     Spinner spinnerLevel;
@@ -41,51 +41,65 @@ public class StudentManagementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_student_management);
+        setContentView(R.layout.activity_student_manage);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        //Start Code here
         databaseHelper = new DatabaseHelper(this);
 
-        // Mapping
-        listView = findViewById(R.id.listView);
-        btnAdd = findViewById(R.id.btnAdd);
-        btnGoToTeacher = findViewById(R.id.btnGoToTeacher);
-        btnLogout = findViewById(R.id.btnLogout);
-        spinnerLevel = findViewById(R.id.spinnerLevel);
-        etSearch = findViewById(R.id.etSearch);
+        //Mapping
+        listView = (ListView) findViewById(R.id.listView);
+        btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnGoToTeacher = (Button) findViewById(R.id.btnGoToTeacher);
+        btnLogout = (Button) findViewById(R.id.btnLogout);
+        spinnerLevel = (Spinner) findViewById(R.id.spinnerLevel);
+        etSearch = (EditText) findViewById(R.id.etSearch);
 
         allStudentList = new ArrayList<>();
         filteredStudentList = new ArrayList<>();
         levelList = new ArrayList<>();
 
-        // Initialize Adapter
+        //Initialize Adapter
         studentAdapter = new StudentAdapter(this, filteredStudentList);
         listView.setAdapter(studentAdapter);
 
-        // Load data
+        //Load data
         loadData();
 
-        // Listeners
-        btnAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(StudentManagementActivity.this, AddEditStudentActivity.class);
-            startActivity(intent);
+        //Event handle
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //use Intent to start other activity
+                Intent intent = new Intent();
+                intent.setClass(StudentManageActivity.this, AddEditStudentActivity.class);
+                startActivity(intent);
+            }
         });
 
-        btnGoToTeacher.setOnClickListener(v -> {
-            Intent intent = new Intent(StudentManagementActivity.this, TeacherManagementActivity.class);
-            startActivity(intent);
-            finish();
+        btnGoToTeacher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(StudentManageActivity.this, TeacherManageActivity.class);
+                startActivity(intent);
+                finish();
+            }
         });
 
-        btnLogout.setOnClickListener(v -> {
-            Intent intent = new Intent(StudentManagementActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(StudentManageActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
         });
 
         etSearch.addTextChangedListener(new TextWatcher() {
