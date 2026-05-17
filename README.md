@@ -1,94 +1,89 @@
-# 🏫 Hệ Thống Quản Lý Trung Tâm Ngoại Ngữ (LanguageCenter)
+# 🏫 Hệ Thống Quản Lý Trung Tâm Ngoại Ngữ (Language Center)
 
-## 📝 Mô tả dự án
-Ứng dụng Android chuyên nghiệp dành cho việc quản lý thông tin Học viên và Giáo viên trong trung tâm ngoại ngữ. Dự án sử dụng cơ sở dữ liệu SQLite để lưu trữ bền vững, giao diện được tối ưu hóa theo phong cách **Material Design** với kỹ thuật **ConstraintLayout bias** và cấu trúc code tuân thủ chuẩn giáo trình.
-
----
-
-## 🚀 Tính năng chính
-
-### 1. Hệ thống Đăng nhập
-*   **Xác thực:** Kiểm tra tài khoản từ cơ sở dữ liệu SQLite.
-*   **Tài khoản quản trị mặc định:**
-    *   **Username:** `caongochuy`
-    *   **Password:** `123456`
-*   **Giao diện:** Cân đối với Logo PTIT, tiêu đề và form nhập liệu được căn chỉnh bằng `bias` chuyên nghiệp.
-
-### 2. Quản lý Học viên (StudentManageActivity)
-*   **Danh sách:** Hiển thị chi tiết: Mã số, Họ tên, Trình độ, Lớp học.
-*   **Bộ lọc thông minh:** 
-    *   Lọc theo **Trình độ** qua Spinner (Dữ liệu trình độ được lấy tự động từ DB).
-    *   Tìm kiếm nhanh theo **Họ tên** hoặc **Lớp học** ngay khi đang gõ.
-*   **Thao tác:** Nút **Sửa** (xanh) và **Xóa** (đỏ) trực tiếp trên từng dòng kèm biểu tượng minh họa.
-
-### 3. Quản lý Giáo viên (TeacherManageActivity)
-*   **Danh sách:** Hiển thị: Mã số, Họ tên, Ngôn ngữ giảng dạy.
-*   **Thao tác:** Hỗ trợ đầy đủ các chức năng Thêm, Sửa, Xóa.
-*   **Điều hướng:** Chuyển đổi nhanh giữa trang Học viên và Giáo viên qua thanh công cụ phía dưới.
-
-### 4. Form Nhập liệu (Add/Edit)
-*   **Tiêu đề động:** Tự động hiển thị "Thêm..." hoặc "Sửa..." dựa trên tác vụ.
-*   **Kiểm soát mã số:** Cho phép nhập/sửa mã số nhưng hệ thống tự động kiểm tra tính duy nhất (trùng lặp) trong Database.
-*   **Tiện dụng:** Các nút **Lưu** và **Hủy** được đặt sát cạnh dưới màn hình.
+## 📖 Giới thiệu
+Dự án **LanguageCenter** là một ứng dụng Android hoàn chỉnh giúp quản lý quy trình vận hành cơ bản của một trung tâm ngoại ngữ, bao gồm quản lý nhân sự (Giáo viên) và khách hàng (Học viên). Ứng dụng được xây dựng theo kiến trúc **MVC (Model-View-Controller)** đơn giản, tuân thủ phong cách lập trình và giao diện theo tiêu chuẩn giáo trình Android hiện đại.
 
 ---
 
-## 💾 Cấu trúc Cơ sở dữ liệu (SQLite)
+## 🚀 Tính năng nổi bật
 
-Tên Database: `LanguageCenter.db` | Phiên bản: `2`
+### 1. Hệ thống Đăng nhập (Security)
+*   **Xác thực:** Kiểm tra tài khoản từ bảng `User` trong SQLite.
+*   **Thông tin đăng nhập mặc định:**
+    *   **Tài khoản:** `caongochuy`
+    *   **Mật khẩu:** `123456`
+*   **Giao diện:** Sử dụng `ConstraintLayout` với kỹ thuật `bias` để căn chỉnh Logo PTIT và Form nhập liệu cân đối.
 
-### 1. Bảng `User` (Lưu tài khoản đăng nhập)
-| Trường | Kiểu dữ liệu | Thuộc tính | Mô tả |
-| :--- | :--- | :--- | :--- |
-| `id` | INTEGER | PRIMARY KEY AUTOINCREMENT | Mã định danh tự tăng |
-| `username` | TEXT | UNIQUE, NOT NULL | Tên đăng nhập |
-| `password` | TEXT | NOT NULL | Mật khẩu đăng nhập |
+### 2. Quản lý Học viên (Student Management)
+*   **Tích hợp Thống kê:** Ngay tại màn hình chính của học viên, có thể lọc danh sách học viên theo trình độ thông qua Spinner.
+*   **Chuẩn trình độ (Enum):** Trình độ học viên được chuẩn hóa theo 6 cấp độ chuẩn Châu Âu: `A1, A2, B1, B2, C1, C2`.
+*   **Tìm kiếm thời gian thực:** Lọc danh sách ngay lập tức khi người dùng gõ tên học viên hoặc tên lớp học vào ô tìm kiếm.
+*   **Hiển thị:** Danh sách bao gồm các trường thông tin: Mã số, Họ tên, Trình độ, Lớp học.
 
-### 2. Bảng `Student` (Lưu thông tin học viên)
-| Trường | Kiểu dữ liệu | Thuộc tính | Mô tả |
-| :--- | :--- | :--- | :--- |
-| `code` | TEXT | PRIMARY KEY | **Mã số** học viên (duy nhất) |
-| `name` | TEXT | NOT NULL | **Họ tên** học viên |
-| `level` | TEXT | NOT NULL | **Trình độ** (Basic, Intermediate, v.v.) |
-| `class_name` | TEXT | NOT NULL | **Lớp học** |
+### 3. Quản lý Giáo viên (Teacher Management)
+*   **Quản lý chuyên môn:** Lưu trữ thông tin giáo viên bao gồm Mã số, Họ tên và ngôn ngữ giảng dạy chính.
+*   **Điều hướng nhanh:** Hệ thống nút bấm chuyển trang "Trang Học viên" và "Trang Giáo viên" nằm ở dưới cùng màn hình giúp di chuyển linh hoạt.
 
-### 3. Bảng `Teacher` (Lưu thông tin giáo viên)
-| Trường | Kiểu dữ liệu | Thuộc tính | Mô tả |
-| :--- | :--- | :--- | :--- |
-| `code` | TEXT | PRIMARY KEY | **Mã số** giáo viên (duy nhất) |
-| `name` | TEXT | NOT NULL | **Họ tên** giáo viên |
-| `language` | TEXT | NOT NULL | **Ngôn ngữ** giảng dạy |
+### 4. Biểu mẫu Thêm/Sửa (Linh hoạt)
+*   **Tiêu đề động:** Tự động hiển thị "Thêm..." hoặc "Sửa..." dựa trên tác vụ người dùng chọn.
+*   **Mã số linh hoạt:** Cho phép sửa mã số, hệ thống sẽ tự động kiểm tra trùng lặp trong Database và cảnh báo nếu mã đã tồn tại.
+*   **Kiểm tra dữ liệu:** Ô nhập trình độ có gợi ý mờ (Hint) và sẽ báo lỗi nếu người dùng nhập sai 6 cấp độ chuẩn (A1-C2).
 
 ---
 
-## 🛠 Thông số Kỹ thuật & Style Code
+## 💾 Thiết kế Cơ sở dữ liệu (SQLite)
 
-*   **Layout:** Sử dụng `ConstraintLayout` làm chủ đạo, căn chỉnh bằng `layout_constraintHorizontal_bias` và `layout_constraintVertical_bias` để đảm bảo độ chính xác vị trí.
-*   **UI Components:** 
-    *   **Buttons:** Kiểu `OutlinedButton` hiện đại.
-    *   **Icons:** Sử dụng Vector Assets (ic_add, ic_edit, ic_delete, ic_logout, v.v.).
-*   **Java Style:**
-    *   Mapping View có ép kiểu tường minh: `edAccount = (EditText) findViewById(R.id.editTextAccount);`.
-    *   Xử lý sự kiện bằng **Anonymous Inner Class**: `btn.setOnClickListener(new View.OnClickListener() {...});`.
-    *   Cấu trúc phân đoạn rõ ràng: `//Mapping`, `//Event handle`, `//Start Code here`.
-*   **Navigation:** Sử dụng `Intent` với `intent.setClass()` và truyền dữ liệu qua `putExtra`.
+**Database Name:** `LanguageCenter.db` | **Version:** `2`
+
+### 1. Bảng `User`
+| Cột | Kiểu | Mô tả |
+| :--- | :--- | :--- |
+| `username` | TEXT | Tên đăng nhập (Khóa chính) |
+| `password` | TEXT | Mật khẩu |
+
+### 2. Bảng `Student`
+| Cột | Kiểu | Mô tả |
+| :--- | :--- | :--- |
+| `code` | TEXT | Mã số học viên (Khóa chính) |
+| `name` | TEXT | Họ và tên |
+| `level` | TEXT | Trình độ (A1, A2, B1, B2, C1, C2) |
+| `class_name` | TEXT | Tên lớp học |
+
+### 3. Bảng `Teacher`
+| Cột | Kiểu | Mô tả |
+| :--- | :--- | :--- |
+| `code` | TEXT | Mã số giáo viên (Khóa chính) |
+| `name` | TEXT | Họ và tên |
+| `language` | TEXT | Ngôn ngữ giảng dạy |
 
 ---
 
-## 📁 Cấu trúc thư mục mã nguồn
-```text
-java/com/example/language_center/
-├── DatabaseHelper.java      # Quản lý SQLite (Tạo bảng, CRUD, Check trùng mã)
-├── MainActivity.java        # Xử lý Đăng nhập & Edge-to-Edge
-├── StudentManageActivity    # Danh sách học viên & Bộ lọc tích hợp
-├── TeacherManageActivity    # Danh sách giáo viên & Điều hướng
-├── AddEditStudentActivity   # Form nhập liệu Học viên
-├── AddEditTeacherActivity   # Form nhập liệu Giáo viên
-├── Student.java             # Lớp đối tượng Học viên
-├── Teacher.java             # Lớp đối tượng Giáo viên
-├── StudentAdapter.java      # Tùy chỉnh hiển thị dòng Học viên
-└── TeacherAdapter.java      # Tùy chỉnh hiển thị dòng Giáo viên
-```
+## 📂 Phân tích cấu trúc thư mục & Chức năng file
 
-## ⚠️ Lưu ý Cập nhật
-Nếu bạn thực hiện thay đổi cấu trúc bảng, hãy tăng `DATABASE_VERSION` trong `DatabaseHelper.java` và thực hiện **Build -> Clean Project** để hệ thống cập nhật lại toàn bộ dữ liệu.
+### 🔹 Thư mục Java (`/java/com/example/language_center/`)
+*   **`MainActivity.java`**: Xử lý logic đăng nhập và thiết lập giao diện tràn viền.
+*   **`StudentManageActivity.java`**: Màn hình quản lý học viên, chứa Spinner lọc và SearchBar.
+*   **`TeacherManageActivity.java`**: Màn hình quản lý giáo viên.
+*   **`AddEditStudentActivity.java`**: Form nhập liệu cho học viên (kiểm tra chuẩn Enum Level).
+*   **`AddEditTeacherActivity.java`**: Form nhập liệu cho giáo viên.
+*   **`DatabaseHelper.java`**: Quản lý SQLite, thực hiện các lệnh CRUD (Thêm, Đọc, Sửa, Xóa).
+*   **`Student.java`**: Lớp đối tượng Học viên (chứa `enum Level` nội bộ).
+*   **`Teacher.java`**: Lớp đối tượng Giáo viên.
+*   **`StudentAdapter.java` & `TeacherAdapter.java`**: Custom Adapter để hiển thị danh sách với nút Sửa/Xóa.
+
+### 🔹 Thư mục Giao diện (`/res/layout/`)
+*   **`activity_main.xml`**: Layout Đăng nhập (ConstraintLayout bias style).
+*   **`activity_student_manage.xml`**: Layout quản lý với bộ lọc tích hợp.
+*   **`student_item_layout.xml`**: Thiết kế dòng học viên với 2 nút hành động riêng biệt.
+
+---
+
+## 🛠 Kỹ thuật và Style Code áp dụng
+1.  **ConstraintLayout Bias:** Định vị trí thành phần theo tỉ lệ %, giúp giao diện cân đối trên mọi màn hình.
+2.  **Explicit Casting:** Mapping View theo style truyền thống: `(Button) findViewById(...)`.
+3.  **Anonymous Inner Class:** Xử lý sự kiện OnClick chuẩn giáo trình.
+4.  **Vector Icons:** Sử dụng chuẩn XML Material Icons (ic_add, ic_edit, ic_delete...) giúp app nhẹ và nét.
+5.  **Outlined Buttons:** Sử dụng kiểu nút hiện đại có viền và icon sát chữ (`iconGravity="textStart"`).
+
+---
+*Dự án thực hiện theo yêu cầu quản lý trung tâm ngoại ngữ chuẩn hóa.*
