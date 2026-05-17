@@ -12,36 +12,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Thêm/Sửa Học Viên"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="32dp" />
 
     <TextView
         android:id="@+id/tvCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mã SV:"
+        android:text="Mã số:"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp" />
+        android:layout_marginTop="48dp" />
 
     <EditText
         android:id="@+id/edCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Nhập mã sinh viên"
+        android:hint="Nhập mã số"
         android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        android:minHeight="48dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvCode"
         app:layout_constraintStart_toEndOf="@+id/tvCode"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="24dp" />
+        android:layout_marginEnd="24dp" />
 
     <TextView
         android:id="@+id/tvName"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edCode"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="24dp" />
 
     <EditText
         android:id="@+id/edName"
@@ -60,12 +60,12 @@
         android:layout_height="wrap_content"
         android:hint="Nhập họ tên"
         android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@+id/edCode"
+        android:minHeight="48dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvName"
         app:layout_constraintStart_toEndOf="@+id/tvName"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginEnd="24dp" />
 
     <TextView
         android:id="@+id/tvLevel"
@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edName"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="24dp" />
 
     <EditText
         android:id="@+id/edLevel"
@@ -84,55 +84,65 @@
         android:layout_height="wrap_content"
         android:hint="Nhập trình độ"
         android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@+id/edName"
+        android:minHeight="48dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvLevel"
         app:layout_constraintStart_toEndOf="@+id/tvLevel"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginEnd="24dp" />
 
     <TextView
         android:id="@+id/tvClass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lớp:"
+        android:text="Lớp học:"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/edLevel"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="24dp" />
 
     <EditText
         android:id="@+id/edClass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Nhập lớp"
+        android:hint="Nhập lớp học"
         android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@+id/edLevel"
+        android:minHeight="48dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvClass"
         app:layout_constraintStart_toEndOf="@+id/tvClass"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginEnd="24dp" />
 
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layoutActions"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lưu"
-        app:layout_constraintTop_toBottomOf="@+id/edClass"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnCancel"
-        android:layout_marginTop="32dp" />
+        android:orientation="horizontal"
+        android:padding="24dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hủy"
-        app:layout_constraintTop_toBottomOf="@+id/edClass"
-        app:layout_constraintStart_toEndOf="@+id/btnSave"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
+        <Button
+            android:id="@+id/btnSave"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Lưu"
+            app:icon="@drawable/ic_save"
+            app:iconGravity="textStart"
+            android:layout_marginEnd="12dp" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Hủy"
+            app:icon="@drawable/ic_back"
+            app:iconGravity="textStart" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

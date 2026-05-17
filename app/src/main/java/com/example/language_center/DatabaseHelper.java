@@ -35,14 +35,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Create User table
         String createUserTable = "CREATE TABLE " + TABLE_USER + " (" +
                 USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 USER_USERNAME + " TEXT UNIQUE NOT NULL, " +
                 USER_PASSWORD + " TEXT NOT NULL)";
         db.execSQL(createUserTable);
 
-        // Create Student table
         String createStudentTable = "CREATE TABLE " + TABLE_STUDENT + " (" +
                 STUDENT_CODE + " TEXT PRIMARY KEY, " +
                 STUDENT_NAME + " TEXT NOT NULL, " +
@@ -50,14 +48,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 STUDENT_CLASS + " TEXT NOT NULL)";
         db.execSQL(createStudentTable);
 
-        // Create Teacher table
         String createTeacherTable = "CREATE TABLE " + TABLE_TEACHER + " (" +
                 TEACHER_CODE + " TEXT PRIMARY KEY, " +
                 TEACHER_NAME + " TEXT NOT NULL, " +
                 TEACHER_LANGUAGE + " TEXT NOT NULL)";
         db.execSQL(createTeacherTable);
 
-        // Insert default admin account
         ContentValues values = new ContentValues();
         values.put(USER_USERNAME, "admin");
         values.put(USER_PASSWORD, "123456");
@@ -72,7 +68,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // User methods
     public boolean checkLogin(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_USER,
@@ -85,7 +80,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Student methods
+    public boolean checkStudentExists(String code) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_STUDENT, new String[]{STUDENT_CODE}, STUDENT_CODE + "=?", new String[]{code}, null, null, null);
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
+
     public boolean addStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -97,13 +99,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public boolean updateStudent(Student student) {
+    public boolean updateStudent(String oldCode, Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(STUDENT_CODE, student.getCode());
         values.put(STUDENT_NAME, student.getName());
         values.put(STUDENT_LEVEL, student.getLevel());
         values.put(STUDENT_CLASS, student.getClassName());
-        int result = db.update(TABLE_STUDENT, values, STUDENT_CODE + "=?", new String[]{student.getCode()});
+        int result = db.update(TABLE_STUDENT, values, STUDENT_CODE + "=?", new String[]{oldCode});
         return result > 0;
     }
 
@@ -118,24 +121,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + TABLE_STUDENT, null);
     }
 
-    public Cursor getStudentsByLevel(String level) {
+    public boolean checkTeacherExists(String code) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(TABLE_STUDENT, null, STUDENT_LEVEL + "=?", new String[]{level}, null, null, null);
+        Cursor cursor = db.query(TABLE_TEACHER, new String[]{TEACHER_CODE}, TEACHER_CODE + "=?", new String[]{code}, null, null, null);
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
     }
 
-    public Cursor getStudentsByClass(String className) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(TABLE_STUDENT, null, STUDENT_CLASS + "=?", new String[]{className}, null, null, null);
-    }
-
-    public Cursor getStudentsByLevelAndClass(String level, String className) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(TABLE_STUDENT, null, 
-                STUDENT_LEVEL + "=? AND " + STUDENT_CLASS + "=?", 
-                new String[]{level, className}, null, null, null);
-    }
-
-    // Teacher methods
     public boolean addTeacher(Teacher teacher) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -146,12 +139,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public boolean updateTeacher(Teacher teacher) {
+    public boolean updateTeacher(String oldCode, Teacher teacher) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(TEACHER_CODE, teacher.getCode());
         values.put(TEACHER_NAME, teacher.getName());
         values.put(TEACHER_LANGUAGE, teacher.getLanguage());
-        int result = db.update(TABLE_TEACHER, values, TEACHER_CODE + "=?", new String[]{teacher.getCode()});
+        int result = db.update(TABLE_TEACHER, values, TEACHER_CODE + "=?", new String[]{oldCode});
         return result > 0;
     }
 

@@ -47,12 +47,11 @@ public class MainActivity extends AppCompatActivity {
                 // Check login from SQLite database
                 if (databaseHelper.checkLogin(user, password)) {
                     Toast.makeText(MainActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, ManagementActivity.class);
+                    Intent intent = new Intent(MainActivity.this, StudentManagementActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(MainActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Tài khoản hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                 }
             }
         });

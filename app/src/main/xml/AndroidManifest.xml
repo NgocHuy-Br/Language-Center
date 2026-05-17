@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LanguageCenter">
         <activity
+            android:name=".StatisticsActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddEditTeacherActivity"
             android:exported="false" />
         <activity
@@ -22,6 +25,9 @@
             android:exported="false" />
         <activity
             android:name=".TeacherManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManagementActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

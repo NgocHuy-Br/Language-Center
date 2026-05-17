@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -14,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class AddEditTeacherActivity extends AppCompatActivity {
+    TextView tvTitle;
     EditText edCode, edName, edLanguage;
     Button btnSave, btnCancel;
     DatabaseHelper databaseHelper;
@@ -35,6 +37,7 @@ public class AddEditTeacherActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
 
         // Mapping
+        tvTitle = findViewById(R.id.tvTitle);
         edCode = findViewById(R.id.edCode);
         edName = findViewById(R.id.edName);
         edLanguage = findViewById(R.id.edLanguage);
@@ -46,11 +49,15 @@ public class AddEditTeacherActivity extends AppCompatActivity {
         isEdit = intent.getBooleanExtra("is_edit", false);
 
         if (isEdit) {
+            tvTitle.setText("Sửa Giáo Viên");
             originalCode = intent.getStringExtra("teacher_code");
             edCode.setText(originalCode);
             edName.setText(intent.getStringExtra("teacher_name"));
             edLanguage.setText(intent.getStringExtra("teacher_language"));
-            edCode.setEnabled(false); // Cannot edit code
+            // Now allowing editing the code as per user request
+            edCode.setEnabled(true); 
+        } else {
+            tvTitle.setText("Thêm Giáo Viên");
         }
 
         // Save button
@@ -69,18 +76,32 @@ public class AddEditTeacherActivity extends AppCompatActivity {
                 Teacher teacher = new Teacher(code, name, language);
 
                 if (isEdit) {
-                    if (databaseHelper.updateTeacher(teacher)) {
+                    // If code is changed, check if the new code already exists
+                    if (!code.equals(originalCode)) {
+                        if (databaseHelper.checkTeacherExists(code)) {
+                            Toast.makeText(AddEditTeacherActivity.this, "Mã số này đã tồn tại!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    
+                    if (databaseHelper.updateTeacher(originalCode, teacher)) {
                         Toast.makeText(AddEditTeacherActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
                         Toast.makeText(AddEditTeacherActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
                     }
                 } else {
+                    // Check if code exists before adding
+                    if (databaseHelper.checkTeacherExists(code)) {
+                        Toast.makeText(AddEditTeacherActivity.this, "Mã số này đã tồn tại!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    
                     if (databaseHelper.addTeacher(teacher)) {
                         Toast.makeText(AddEditTeacherActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(AddEditTeacherActivity.this, "Thêm thất bại (mã đã tồn tại)", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddEditTeacherActivity.this, "Thêm thất bại", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
