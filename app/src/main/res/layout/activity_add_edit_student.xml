@@ -82,7 +82,7 @@
         android:id="@+id/edLevel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Nhập trình độ"
+        android:hint="A1, A2, B1, B2, C1 hoặc C2"
         android:inputType="text"
         android:minHeight="48dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvLevel"

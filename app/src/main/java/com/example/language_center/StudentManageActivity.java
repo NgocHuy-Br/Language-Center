@@ -20,8 +20,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class StudentManageActivity extends AppCompatActivity {
     ListView listView;
@@ -67,14 +65,16 @@ public class StudentManageActivity extends AppCompatActivity {
         studentAdapter = new StudentAdapter(this, filteredStudentList);
         listView.setAdapter(studentAdapter);
 
-        //Load data
+        // Setup Spinner with hardcoded levels from Student.Level enum
+        setupSpinner();
+
+        // Load data from DB
         loadData();
 
         //Event handle
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //use Intent to start other activity
                 Intent intent = new Intent();
                 intent.setClass(StudentManageActivity.this, AddEditStudentActivity.class);
                 startActivity(intent);
@@ -126,6 +126,19 @@ public class StudentManageActivity extends AppCompatActivity {
         });
     }
 
+    private void setupSpinner() {
+        levelList.clear();
+        levelList.add("Tất cả trình độ");
+        // Lấy danh sách trình độ từ Enum trong lớp Student
+        for (String level : Student.Level.getStrings()) {
+            levelList.add(level);
+        }
+
+        levelAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, levelList);
+        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLevel.setAdapter(levelAdapter);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -133,12 +146,8 @@ public class StudentManageActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        // 1. Load all students
         allStudentList.clear();
         Cursor cursor = databaseHelper.getAllStudents();
-        Set<String> uniqueLevels = new HashSet<>();
-        uniqueLevels.add("Tất cả trình độ");
-
         if (cursor.moveToFirst()) {
             do {
                 Student s = new Student(
@@ -148,24 +157,9 @@ public class StudentManageActivity extends AppCompatActivity {
                         cursor.getString(3)
                 );
                 allStudentList.add(s);
-                uniqueLevels.add(s.getLevel());
             } while (cursor.moveToNext());
         }
         cursor.close();
-
-        // 2. Update Spinner
-        String currentSelection = spinnerLevel.getSelectedItem() != null ? spinnerLevel.getSelectedItem().toString() : "Tất cả trình độ";
-        levelList.clear();
-        levelList.addAll(uniqueLevels);
-        
-        levelAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, levelList);
-        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLevel.setAdapter(levelAdapter);
-
-        // Restore selection if exists
-        int pos = levelList.indexOf(currentSelection);
-        spinnerLevel.setSelection(pos != -1 ? pos : 0);
-
         filterStudents();
     }
 
@@ -176,7 +170,7 @@ public class StudentManageActivity extends AppCompatActivity {
         filteredStudentList.clear();
 
         for (Student student : allStudentList) {
-            boolean matchesLevel = selectedLevel.equals("Tất cả trình độ") || student.getLevel().equals(selectedLevel);
+            boolean matchesLevel = selectedLevel.equals("Tất cả trình độ") || student.getLevel().equalsIgnoreCase(selectedLevel);
             boolean matchesSearch = searchText.isEmpty() || 
                                     student.getName().toLowerCase().contains(searchText) || 
                                     student.getClassName().toLowerCase().contains(searchText);

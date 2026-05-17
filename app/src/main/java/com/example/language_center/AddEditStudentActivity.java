@@ -76,7 +76,13 @@ public class AddEditStudentActivity extends AppCompatActivity {
                     return;
                 }
 
-                Student student = new Student(code, name, level, className);
+                // Sửa lỗi: Gọi đúng hàm isValid từ Enum Level nằm trong lớp Student
+                if (!Student.Level.isValid(level)) {
+                    Toast.makeText(AddEditStudentActivity.this, "Trình độ không hợp lệ! Vui lòng nhập: A1, A2, B1, B2, C1 hoặc C2", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Student student = new Student(code, name, level.toUpperCase(), className);
 
                 if (isEdit) {
                     if (!code.equals(originalCode)) {
