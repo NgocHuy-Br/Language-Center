@@ -8,22 +8,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "LanguageCenter.db";
-    private static final int DATABASE_VERSION = 2; // Tăng version để cập nhật tài khoản mới
+    private static final int DATABASE_VERSION = 2; 
 
-    // Table User
     private static final String TABLE_USER = "User";
-    private static final String USER_ID = "id";
     private static final String USER_USERNAME = "username";
     private static final String USER_PASSWORD = "password";
 
-    // Table Student
     private static final String TABLE_STUDENT = "Student";
     private static final String STUDENT_CODE = "code";
     private static final String STUDENT_NAME = "name";
     private static final String STUDENT_LEVEL = "level";
     private static final String STUDENT_CLASS = "class_name";
 
-    // Table Teacher
     private static final String TABLE_TEACHER = "Teacher";
     private static final String TEACHER_CODE = "code";
     private static final String TEACHER_NAME = "name";
@@ -35,8 +31,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // Tạo bảng
         String createUserTable = "CREATE TABLE " + TABLE_USER + " (" +
-                USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 USER_USERNAME + " TEXT UNIQUE NOT NULL, " +
                 USER_PASSWORD + " TEXT NOT NULL)";
         db.execSQL(createUserTable);
@@ -54,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TEACHER_LANGUAGE + " TEXT NOT NULL)";
         db.execSQL(createTeacherTable);
 
-        // Khởi tạo tài khoản theo yêu cầu mới
+        // tài khoản mặc định
         ContentValues values = new ContentValues();
         values.put(USER_USERNAME, "caongochuy");
         values.put(USER_PASSWORD, "123456");
@@ -72,7 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean checkLogin(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_USER,
-                new String[]{USER_ID},
+                new String[]{"id"},
                 USER_USERNAME + "=? AND " + USER_PASSWORD + "=?",
                 new String[]{username, password},
                 null, null, null);

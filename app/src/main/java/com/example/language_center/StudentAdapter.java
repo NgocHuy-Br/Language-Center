@@ -22,8 +22,9 @@ public class StudentAdapter extends ArrayAdapter<Student> {
     private ArrayList<Student> students;
     private DatabaseHelper databaseHelper;
 
+
     public StudentAdapter(@NonNull Context context, ArrayList<Student> students) {
-        super(context, 0, students);
+        super(context, 0, students); // Gọi constructor của lớp cha
         this.context = context;
         this.students = students;
         this.databaseHelper = new DatabaseHelper(context);
@@ -37,52 +38,60 @@ public class StudentAdapter extends ArrayAdapter<Student> {
         }
 
         Student student = students.get(position);
-        TextView tvStudentInfo = convertView.findViewById(R.id.tvStudentInfo);
-        Button btnEdit = convertView.findViewById(R.id.btnEdit);
-        Button btnDelete = convertView.findViewById(R.id.btnDelete);
 
-        // Cập nhật lại nhãn hiển thị theo yêu cầu mới
+        // mapping
+        TextView tvStudentInfo = (TextView) convertView.findViewById(R.id.tvStudentInfo);
+        Button btnEdit = (Button) convertView.findViewById(R.id.btnEdit);
+        Button btnDelete = (Button) convertView.findViewById(R.id.btnDelete);
+
+        // Đổ dữ liệu vào giao diện
         String studentInfo = "Mã số: " + student.getCode() + "\n" +
                 "Họ tên: " + student.getName() + "\n" +
                 "Trình độ: " + student.getLevel() + "\n" +
                 "Lớp học: " + student.getClassName();
-
         tvStudentInfo.setText(studentInfo);
 
-        // Handle Edit button click
+        // Event handle nut sua
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AddEditStudentActivity.class);
+                // Tạo Intent để chuyển sang trang AddEditStudentActivity
+                Intent intent = new Intent();
+                intent.setClass(context, AddEditStudentActivity.class);
+                
+                // Gửi dữ liệu học viên hiện tại sang trang sửa qua Intent
                 intent.putExtra("student_code", student.getCode());
                 intent.putExtra("student_name", student.getName());
                 intent.putExtra("student_level", student.getLevel());
                 intent.putExtra("student_class", student.getClassName());
-                intent.putExtra("is_edit", true);
-                context.startActivity(intent);
+                intent.putExtra("is_edit", true); // Báo cho trang bên kia biết là đang Sửa chứ không phải Thêm
+                
+                context.startActivity(intent); // Kích hoạt chuyển trang
             }
         });
 
-        // Handle Delete button click
+        // Event handle xoa
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Tạo một hộp thoại xác nhận (AlertDialog) để tránh xóa nhầm
                 new AlertDialog.Builder(context)
                         .setTitle("Xác nhận xóa")
                         .setMessage("Bạn có chắc muốn xóa học viên " + student.getName() + "?")
                         .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                // Gọi hàm deleteStudent trong DatabaseHelper
                                 if (databaseHelper.deleteStudent(student.getCode())) {
                                     Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
-                                    students.remove(position);
-                                    notifyDataSetChanged();
+                                    students.remove(position); // Xóa khỏi danh sách đang hiện thị
+                                    notifyDataSetChanged(); // Cập nhật lại giao diện ListView ngay lập tức
                                 } else {
                                     Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         })
-                        .setNegativeButton("Hủy", null)
+                        .setNegativeButton("Hủy", null) // Không làm gì nếu nhấn Hủy
                         .show();
             }
         });

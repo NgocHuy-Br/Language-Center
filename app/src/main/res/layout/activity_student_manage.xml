@@ -34,7 +34,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
         app:layout_constraintVertical_bias="0.02" />
 
-    <!-- Khu vực lọc trình độ -->
     <TextView
         android:id="@+id/tvFilterLabel"
         android:layout_width="wrap_content"
@@ -58,7 +57,6 @@
         app:layout_constraintTop_toTopOf="@+id/tvFilterLabel"
         app:layout_constraintVertical_bias="0.0" />
 
-    <!-- Ô tìm kiếm -->
     <EditText
         android:id="@+id/etSearch"
         android:layout_width="0dp"
@@ -74,7 +72,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvFilterLabel"
         app:layout_constraintVertical_bias="0.05" />
 
-    <!-- Danh sách hiển thị -->
     <ListView
         android:id="@+id/listView"
         android:layout_width="0dp"
@@ -85,7 +82,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etSearch" />
 
-    <!-- Hàng nút dưới cùng -->
     <LinearLayout
         android:id="@+id/layoutBottomButtons"
         android:layout_width="match_parent"

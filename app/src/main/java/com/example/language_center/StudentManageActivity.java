@@ -40,16 +40,16 @@ public class StudentManageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_student_manage);
+        
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        //Start Code here
         databaseHelper = new DatabaseHelper(this);
 
-        //Mapping
+        // Ánh xạ view
         listView = (ListView) findViewById(R.id.listView);
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnGoToTeacher = (Button) findViewById(R.id.btnGoToTeacher);
@@ -61,17 +61,13 @@ public class StudentManageActivity extends AppCompatActivity {
         filteredStudentList = new ArrayList<>();
         levelList = new ArrayList<>();
 
-        //Initialize Adapter
         studentAdapter = new StudentAdapter(this, filteredStudentList);
         listView.setAdapter(studentAdapter);
 
-        // Setup Spinner with hardcoded levels from Student.Level enum
         setupSpinner();
-
-        // Load data from DB
         loadData();
 
-        //Event handle
+        // Thêm học viên
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +77,7 @@ public class StudentManageActivity extends AppCompatActivity {
             }
         });
 
+        // Qua trang giáo viên
         btnGoToTeacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +88,7 @@ public class StudentManageActivity extends AppCompatActivity {
             }
         });
 
+        // Thoát
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +100,7 @@ public class StudentManageActivity extends AppCompatActivity {
             }
         });
 
+        // Tìm kiếm
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -115,6 +114,7 @@ public class StudentManageActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
 
+        // Lọc trình độ
         spinnerLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -129,7 +129,6 @@ public class StudentManageActivity extends AppCompatActivity {
     private void setupSpinner() {
         levelList.clear();
         levelList.add("Tất cả trình độ");
-        // Lấy danh sách trình độ từ Enum trong lớp Student
         for (String level : Student.Level.getStrings()) {
             levelList.add(level);
         }
@@ -145,6 +144,7 @@ public class StudentManageActivity extends AppCompatActivity {
         loadData();
     }
 
+    // Lấy danh sách học viên
     private void loadData() {
         allStudentList.clear();
         Cursor cursor = databaseHelper.getAllStudents();
@@ -163,6 +163,7 @@ public class StudentManageActivity extends AppCompatActivity {
         filterStudents();
     }
 
+    // Lọc học viên
     private void filterStudents() {
         String selectedLevel = spinnerLevel.getSelectedItem() != null ? spinnerLevel.getSelectedItem().toString() : "Tất cả trình độ";
         String searchText = etSearch.getText().toString().toLowerCase().trim();

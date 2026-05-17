@@ -1,9 +1,9 @@
 package com.example.language_center;
 
 public class Teacher {
-    private String code;
-    private String name;
-    private String language;
+    private String code;     // Mã số giáo viên
+    private String name;     // Họ tên
+    private String language; // Ngôn ngữ giảng dạy
 
     public Teacher(String code, String name, String language) {
         this.code = code;
@@ -11,32 +11,12 @@ public class Teacher {
         this.language = language;
     }
 
-    public String getCode() {
-        return code;
-    }
+    public String getCode() { return code; }
+    public void setCode(String code) { this.code = code; }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    @Override
-    public String toString() {
-        return code + " - " + name + " - " + language;
-    }
+    public String getLanguage() { return language; }
+    public void setLanguage(String language) { this.language = language; }
 }

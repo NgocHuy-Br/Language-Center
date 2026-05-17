@@ -17,10 +17,12 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 
+
 public class TeacherAdapter extends ArrayAdapter<Teacher> {
     private Context context;
     private ArrayList<Teacher> teachers;
     private DatabaseHelper databaseHelper;
+
 
     public TeacherAdapter(@NonNull Context context, ArrayList<Teacher> teachers) {
         super(context, 0, teachers);
@@ -28,6 +30,7 @@ public class TeacherAdapter extends ArrayAdapter<Teacher> {
         this.teachers = teachers;
         this.databaseHelper = new DatabaseHelper(context);
     }
+
 
     @NonNull
     @Override
@@ -37,22 +40,24 @@ public class TeacherAdapter extends ArrayAdapter<Teacher> {
         }
 
         Teacher teacher = teachers.get(position);
-        TextView tvTeacherInfo = convertView.findViewById(R.id.tvTeacherInfo);
-        Button btnEdit = convertView.findViewById(R.id.btnEdit);
-        Button btnDelete = convertView.findViewById(R.id.btnDelete);
 
-        // Cập nhật lại nhãn hiển thị theo yêu cầu mới: Mã số
+        // mapping
+        TextView tvTeacherInfo = (TextView) convertView.findViewById(R.id.tvTeacherInfo);
+        Button btnEdit = (Button) convertView.findViewById(R.id.btnEdit);
+        Button btnDelete = (Button) convertView.findViewById(R.id.btnDelete);
+
+
         String teacherInfo = "Mã số: " + teacher.getCode() + "\n" +
                 "Họ tên: " + teacher.getName() + "\n" +
                 "Ngôn ngữ: " + teacher.getLanguage();
-
         tvTeacherInfo.setText(teacherInfo);
 
-        // Xử lý sự kiện nút Sửa
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AddEditTeacherActivity.class);
+                // Mở màn hình AddEditTeacherActivity và truyền dữ liệu hiện có
+                Intent intent = new Intent();
+                intent.setClass(context, AddEditTeacherActivity.class);
                 intent.putExtra("teacher_code", teacher.getCode());
                 intent.putExtra("teacher_name", teacher.getName());
                 intent.putExtra("teacher_language", teacher.getLanguage());
@@ -61,7 +66,6 @@ public class TeacherAdapter extends ArrayAdapter<Teacher> {
             }
         });
 
-        // Xử lý sự kiện nút Xóa
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +75,7 @@ public class TeacherAdapter extends ArrayAdapter<Teacher> {
                         .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
                                 if (databaseHelper.deleteTeacher(teacher.getCode())) {
                                     Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
                                     teachers.remove(position);

@@ -6,11 +6,9 @@ public class Student {
     private String level;
     private String className;
 
-    // Định nghĩa Enum ngay trong lớp Student cho gọn
     public enum Level {
         A1, A2, B1, B2, C1, C2;
 
-        // Hàm kiểm tra một chuỗi có khớp với Enum không
         public static boolean isValid(String val) {
             if (val == null) return false;
             for (Level l : Level.values()) {
@@ -21,7 +19,6 @@ public class Student {
             return false;
         }
 
-        // Trả về mảng chuỗi tên các Level để hiển thị
         public static String[] getStrings() {
             return new String[]{"A1", "A2", "B1", "B2", "C1", "C2"};
         }
@@ -34,7 +31,6 @@ public class Student {
         this.className = className;
     }
 
-    // Getter và Setter
     public String getCode() { return code; }
     public void setCode(String code) { this.code = code; }
     public String getName() { return name; }

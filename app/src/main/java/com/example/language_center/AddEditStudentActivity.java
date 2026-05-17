@@ -14,11 +14,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+
 public class AddEditStudentActivity extends AppCompatActivity {
     TextView tvTitle;
     EditText edCode, edName, edLevel, edClass;
     Button btnSave, btnCancel;
+
     DatabaseHelper databaseHelper;
+
     boolean isEdit = false;
     String originalCode = "";
 
@@ -27,17 +30,16 @@ public class AddEditStudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_edit_student);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        //Start Code here
-        //Initialize database
         databaseHelper = new DatabaseHelper(this);
 
-        //Mapping
+        // mapping XML sang Java
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         edCode = (EditText) findViewById(R.id.edCode);
         edName = (EditText) findViewById(R.id.edName);
@@ -46,26 +48,30 @@ public class AddEditStudentActivity extends AppCompatActivity {
         btnSave = (Button) findViewById(R.id.btnSave);
         btnCancel = (Button) findViewById(R.id.btnCancel);
 
-        //Check if edit mode
+        // kiểm tra là tác vụ thêm hay sửa
         Intent intent = getIntent();
         isEdit = intent.getBooleanExtra("is_edit", false);
 
         if (isEdit) {
+            // nếu là sửa
             tvTitle.setText("Sửa Học Viên");
             originalCode = intent.getStringExtra("student_code");
             edCode.setText(originalCode);
             edName.setText(intent.getStringExtra("student_name"));
             edLevel.setText(intent.getStringExtra("student_level"));
             edClass.setText(intent.getStringExtra("student_class"));
+
             edCode.setEnabled(true); 
         } else {
+            // nếu là thêm
             tvTitle.setText("Thêm Học Viên");
         }
 
-        //Event handle
+        // Xử lý khi nhấn lưu
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // lấy nội dung vừa nhập
                 String code = edCode.getText().toString().trim();
                 String name = edName.getText().toString().trim();
                 String level = edLevel.getText().toString().trim();
@@ -76,7 +82,6 @@ public class AddEditStudentActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Sửa lỗi: Gọi đúng hàm isValid từ Enum Level nằm trong lớp Student
                 if (!Student.Level.isValid(level)) {
                     Toast.makeText(AddEditStudentActivity.this, "Trình độ không hợp lệ! Vui lòng nhập: A1, A2, B1, B2, C1 hoặc C2", Toast.LENGTH_LONG).show();
                     return;
@@ -85,19 +90,22 @@ public class AddEditStudentActivity extends AppCompatActivity {
                 Student student = new Student(code, name, level.toUpperCase(), className);
 
                 if (isEdit) {
+
                     if (!code.equals(originalCode)) {
                         if (databaseHelper.checkStudentExists(code)) {
-                            Toast.makeText(AddEditStudentActivity.this, "Mã số này đã tồn tại!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddEditStudentActivity.this, "Mã số mới này đã tồn tại trong hệ thống!", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
+                    // Gọi hàm updateStudent trong DatabaseHelper
                     if (databaseHelper.updateStudent(originalCode, student)) {
                         Toast.makeText(AddEditStudentActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                        finish();
+                        finish(); // Đóng trang, quay về danh sách
                     } else {
                         Toast.makeText(AddEditStudentActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
                     }
                 } else {
+                    // logic thêm mới ---
                     if (databaseHelper.checkStudentExists(code)) {
                         Toast.makeText(AddEditStudentActivity.this, "Mã số này đã tồn tại!", Toast.LENGTH_SHORT).show();
                         return;
@@ -112,6 +120,7 @@ public class AddEditStudentActivity extends AppCompatActivity {
             }
         });
 
+        // Xử lý nhấn hủy
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

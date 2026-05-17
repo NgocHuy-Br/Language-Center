@@ -3,6 +3,7 @@ package com.example.language_center;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -27,6 +28,7 @@ public class TeacherManageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_teacher_manage);
+        
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -35,35 +37,49 @@ public class TeacherManageActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
 
-        listView = findViewById(R.id.listView);
-        btnAdd = findViewById(R.id.btnAdd);
-        btnGoToStudent = findViewById(R.id.btnGoToStudent);
-        btnLogout = findViewById(R.id.btnLogout);
+        // Ánh xạ view
+        listView = (ListView) findViewById(R.id.listView);
+        btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnGoToStudent = (Button) findViewById(R.id.btnGoToStudent);
+        btnLogout = (Button) findViewById(R.id.btnLogout);
 
         teacherList = new ArrayList<>();
-        
-        // Setup Adapter
         teacherAdapter = new TeacherAdapter(this, teacherList);
         listView.setAdapter(teacherAdapter);
 
         loadTeachers();
 
-        btnAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(TeacherManageActivity.this, AddEditTeacherActivity.class);
-            startActivity(intent);
+        // Thêm giáo viên
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(TeacherManageActivity.this, AddEditTeacherActivity.class);
+                startActivity(intent);
+            }
         });
 
-        btnGoToStudent.setOnClickListener(v -> {
-            Intent intent = new Intent(TeacherManageActivity.this, StudentManageActivity.class);
-            startActivity(intent);
-            finish();
+        // Qua trang học viên
+        btnGoToStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(TeacherManageActivity.this, StudentManageActivity.class);
+                startActivity(intent);
+                finish();
+            }
         });
 
-        btnLogout.setOnClickListener(v -> {
-            Intent intent = new Intent(TeacherManageActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
+        // Thoát
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(TeacherManageActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
         });
     }
 
@@ -73,6 +89,7 @@ public class TeacherManageActivity extends AppCompatActivity {
         loadTeachers();
     }
 
+    // Lấy danh sách giáo viên
     private void loadTeachers() {
         teacherList.clear();
         Cursor cursor = databaseHelper.getAllTeachers();
